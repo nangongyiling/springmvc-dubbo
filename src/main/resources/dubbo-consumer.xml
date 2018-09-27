@@ -19,17 +19,17 @@
         	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 
-    
+    <context:property-placeholder location="classpath:dubbo-consumer.properties" ignore-unresolvable="true"/>
 	<dubbo:application name="springmvc"/>
     <!-- 使用zookeeper注册中心暴露服务地址 -->
-   	<dubbo:registry id="publicServiceRegistry" protocol="zookeeper" address="192.168.13.129:2181" />
+   	<dubbo:registry id="publicServiceRegistry" protocol="zookeeper" address="${public-registry-address}" />
    	<dubbo:consumer check="false"/>
-    <dubbo:protocol name="dubbo" port="2181"
+    <dubbo:protocol name="dubbo" port="2181" 
                     server="netty" client="netty" serialization="java" charset="UTF-8"
                     threadpool="fixed" threads="400"/>
 
-    <dubbo:reference protocol="dubbo" version="1.0" timeout="30000"
-                     check="false" retries="0" registry="publicServiceRegistry"
+    <dubbo:reference protocol="dubbo" version="${service-version}" timeout="${service-timeout}"
+                     check="false" retries="0" registry="publicServiceRegistry" group="${service-group}"
                      interface="com.zp.test.service.TestConsumerService" id="testConsumerService"/>
 	
      
